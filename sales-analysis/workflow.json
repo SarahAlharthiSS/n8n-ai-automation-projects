@@ -1,0 +1,219 @@
+{
+  "name": "data analysis",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1C-cUH1aWFft7-ZYc9O3Saw9l6ihirDLQ",
+          "mode": "list",
+          "cachedResultName": "تحليل",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1C-cUH1aWFft7-ZYc9O3Saw9l6ihirDLQ"
+        },
+        "event": "fileUpdated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "127ca856-e388-46bb-913c-6819af328339",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hTryvH16PH5BBerk",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "cb5d8b69-3529-4650-9429-abb516cd31d8",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hTryvH16PH5BBerk",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "f2a04b49-4b44-459e-bb21-25c5fda8fed5",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "c848ccd8-f319-47f1-9f3a-cd60ecbd0e8f",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chat-latest",
+          "mode": "list",
+          "cachedResultName": "CHAT-LATEST"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=أنت محلل بيانات مبيعات خبير، تعمل مع أصحاب المتاجر الصغيرة في السعودية، ومهمتك تحويل بيانات المبيعات إلى ملاحظات واضحة وقرارات عملية يفهمها صاحب المتجر بدون خلفية تقنية.\n\n## البيانات\nفيما يلي بيانات مبيعات متجر صغير بصيغة JSON. كل عنصر يمثل طلباً واحداً، ويحتوي على:\n- order_id: رقم الطلب\n- date: تاريخ الطلب\n- day: يوم الأسبوع\n- product: اسم المنتج\n- category: تصنيف المنتج\n- quantity: الكمية المباعة\n- unit_price: سعر الوحدة بالريال\n- total: إجمالي قيمة الطلب بالريال\n- city: المدينة\n\n{{ JSON.stringify($json.data) }}\n\n## المطلوب\nحلل البيانات واكتب تقريراً يغطي التالي بالترتيب:\n\n1. ملخص سريع: إجمالي المبيعات بالريال، وعدد الطلبات، ومتوسط قيمة الطلب.\n2. المنتجات: أكثر 3 منتجات مبيعاً حسب الكمية، وأقل منتجين.\n3. التصنيفات: ترتيب التصنيفات حسب إجمالي المبيعات بالريال.\n4. المدن: ترتيب المدن حسب إجمالي المبيعات، مع ملاحظة عن الفرق بينها.\n5. أيام الأسبوع: أقوى يومين وأضعف يومين في المبيعات.\n6. أهم 5 ملاحظات: أنماط أو فرص أو مشاكل لاحظتها في البيانات.\n7. 3 توصيات عملية: خطوات واضحة يقدر صاحب المتجر ينفذها الشهر الجاي، وكل توصية مرتبطة بملاحظة من البيانات.\n\n## قواعد المحتوى\n- اعتمد فقط على البيانات الموجودة، ولا تفترض أي معلومة غير موجودة فيها.\n- اذكر الأرقام بدقة مع الريال، وراجع حساباتك قبل الكتابة.\n- اكتب بالعربية الفصحى البسيطة، بجمل قصيرة ومباشرة.\n\n## شكل الرد\n- اكتب الرد ككود HTML جاهز يُرسل في إيميل مباشرة.\n- ابدأ بـ <div dir=\"rtl\" style=\"font-family: Arial, sans-serif; line-height: 1.8; color: #222; max-width: 640px;\"> وانتهِ بـ </div>.\n- استخدم <h2> لعنوان التقرير، و<h3> لعنوان كل جزء، و<ul><li> للنقاط، و<strong> للأرقام المهمة.\n- اكتب كل التنسيق داخل style في نفس العنصر، بدون <style> أو ملفات خارجية.\n- لا تكتب أي نص قبل الـ HTML أو بعده، ولا تضع الكود داخل ``` أو أي علامات Markdown."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        0
+      ],
+      "id": "c34232d9-5d2a-4029-a42c-bc42dfd078a0",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "hg5oTSezx6Go5NqR",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "wsss00960@gmail.com",
+        "subject": "تحليل مبيعات الشهر ",
+        "message": "={{ $json.output[0].content[0].text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1264,
+        0
+      ],
+      "id": "171ee871-a49f-4793-bd8c-cbc666c79f22",
+      "name": "Send a message",
+      "webhookId": "09953770-03f8-41bf-97de-59c2ac6308ec",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h19lvJA603ATnBlQ",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "32f77e0c-cfa9-4abf-8ae6-c578929cf803",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1cd1f0283b926c4c7ac48d8ef540202ad8d650f75ae0c9ab87d1406d57ed341e"
+  },
+  "nodeGroups": [],
+  "id": "P8qid4iUrfUGM8Xj",
+  "tags": []
+}
