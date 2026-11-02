@@ -13,12 +13,10 @@
         "triggerOn": "specificFolder",
         "folderToWatch": {
           "__rl": true,
-          "value": "1C-cUH1aWFft7-ZYc9O3Saw9l6ihirDLQ",
-          "mode": "list",
-          "cachedResultName": "تحليل",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1C-cUH1aWFft7-ZYc9O3Saw9l6ihirDLQ"
+          "value": "YOUR_FOLDER_ID",
+          "mode": "id"
         },
-        "event": "fileUpdated",
+        "event": "fileCreated",
         "options": {}
       },
       "type": "n8n-nodes-base.googleDriveTrigger",
@@ -31,7 +29,7 @@
       "name": "Google Drive Trigger",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "hTryvH16PH5BBerk",
+          "id": "",
           "name": "Google Drive account"
         }
       }
@@ -56,7 +54,7 @@
       "name": "Download file",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "hTryvH16PH5BBerk",
+          "id": "",
           "name": "Google Drive account"
         }
       }
@@ -116,14 +114,14 @@
       "name": "Message a model",
       "credentials": {
         "openAiApi": {
-          "id": "hg5oTSezx6Go5NqR",
+          "id": "",
           "name": "OpenAI account"
         }
       }
     },
     {
       "parameters": {
-        "sendTo": "wsss00960@gmail.com",
+        "sendTo": "your-email@example.com",
         "subject": "تحليل مبيعات الشهر ",
         "message": "={{ $json.output[0].content[0].text }}",
         "options": {}
@@ -136,10 +134,9 @@
       ],
       "id": "171ee871-a49f-4793-bd8c-cbc666c79f22",
       "name": "Send a message",
-      "webhookId": "09953770-03f8-41bf-97de-59c2ac6308ec",
       "credentials": {
         "gmailOAuth2": {
-          "id": "h19lvJA603ATnBlQ",
+          "id": "",
           "name": "Gmail account"
         }
       }
@@ -203,17 +200,14 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "32f77e0c-cfa9-4abf-8ae6-c578929cf803",
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "1cd1f0283b926c4c7ac48d8ef540202ad8d650f75ae0c9ab87d1406d57ed341e"
+    "templateCredsSetupCompleted": false
   },
   "nodeGroups": [],
-  "id": "P8qid4iUrfUGM8Xj",
   "tags": []
 }
